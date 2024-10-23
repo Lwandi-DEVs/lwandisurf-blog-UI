@@ -1,0 +1,8 @@
+services:
+  lwandi_react:
+    build: .        
+    volumes:
+      - ./log:/var/log/nginx
+      - ./build:/app/build
+    command: npm run build
+
