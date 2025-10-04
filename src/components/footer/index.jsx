@@ -44,7 +44,7 @@ const Footer = () => {
               <p>
                 Copyright 2020 @lwandisurf. All Rights Reserved. <br />
                 Made with <i className="icon-heart3"></i> by{" "}
-                <a href="https://growtechnologies.com.br/" target="_blank" rel="noopener noreferrer">
+                <a href="https://zorgen.tech/" target="_blank" rel="noopener noreferrer">
                   Growtech
                 </a>{" "}
                 / Template base from:{" "}
