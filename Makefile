@@ -1,36 +1,17 @@
-# create_image:
-# 	docker build . -t lwandisurf-ui/node:latest --no-cache
-# container_up:
-# 	docker run -dt -v /app/node_modules -v ${PWD}:/app -p 3000:3000 --network=lwandisurf-blog_default --rm --name lwandisurf-ui lwandisurf-ui/node:latest
-# container_down:
-# 	docker container stop lwandisurf-ui
-# container_logs:
-# 	docker container logs lwandisurf-ui -f
+.PHONY: build run clean
 
-# Starts the stack
-up:
-	docker-compose -f docker-compose-dev.yml up --build
+build:
+	docker build -t lwandisurf-ui .
 
-# Starts the stack in background mode
-up-daemon:
-	docker-compose -f docker-compose-dev.yml up -d --build
+run:
+	docker run -d --rm --name lwandisurf-ui-container \
+		-v $(PWD)/dist:/app/dist \
+		lwandisurf-ui
 
-# Down the stack
-down:
-	docker-compose -f docker-compose-dev.yml down
+clean:
+	docker stop lwandisurf-ui-container || true
+	docker rm lwandisurf-ui-container || true
 
-# Down the stack and drop containers volumes
-down-v:
-	docker-compose -f docker-compose-dev.yml down -v
-
-# Show stack logs
-logs:
-	docker-compose -f docker-compose-dev.yml logs
-
-# Show stack real time logs 
-logs-f:
-	docker-compose -f docker-compose-dev.yml logs --follow
-
-# Build prod React Docker Image
-react-build:
-	docker build . -f Dockerfile.prod -t lucasfs/lwandi-ui:latest
+deploy-prd:
+	@echo "Deploying to production..."
+	scp -r dist/* zorgen@zorgen.tech:/home/zorgen/nginx_proxy_manager/staticfiles/lwandi/site
